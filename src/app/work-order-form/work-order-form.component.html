@@ -1,0 +1,116 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-secondary d-flex justify-content-between">
+    <a class="navbar-brand" href="#">Work Order From</a>
+    <div>
+        <a class="text-white" href="https://github.com/ngdevelop-tech/angular-pdfmake-workOrder-generator" target="_blank"><i class="fa fa-github fa-2x" aria-hidden="true"></i></a>
+    </div>
+</nav>
+<form #workOrderForm="ngForm">
+    <div class="container-fluid pt-2 mb-5">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card border-secondary">
+                    <div class="card-body">
+                        <h4 class="card-title">Customer Details</h4>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input type="text" class="form-control" name="name" id="name"
+                                        [ngClass]="{'is-invalid': workOrderForm.submitted && CustName.invalid}"
+                                        [(ngModel)]="workOrder.customerName" #CustName="ngModel" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="address">Address</label>
+                                    <textarea class="form-control" name="address" id="address" row="3"
+                                        [ngClass]="{'is-invalid': workOrderForm.submitted && Address.invalid}"
+                                        [(ngModel)]="workOrder.address" #Address="ngModel" required></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="email">Email ID</label>
+                                    <input type="email" class="form-control" name="email" id="email"
+                                        [(ngModel)]="workOrder.email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="contactNo">Contact No.</label>
+                                    <input type="number" class="form-control" name="contactNo" id="contactNo"
+                                        [ngClass]="{'is-invalid': workOrderForm.submitted && ContactNo.invalid}"
+                                        [(ngModel)]="workOrder.contactNo" #ContactNo="ngModel" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card border-secondary mt-2">
+                    <div class="card-body">
+                        <h4 class="card-title d-flex justify-content-between">Vehicle/Machine Details <button type="button"
+                                class="btn btn-secondary" (click)="addProduct()">+</button></h4>
+                        <div class="row">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th width="25%">Year</th>
+                                        <th width="25%">Make</th>
+                                        <th width="25%">Model</th>
+                                        <th width="25%">Mileage</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let vehicle of workOrder.vehicles; let i=index">
+                                        <td scope="row">
+                                            <input type="number" class="form-control" name="year{{i}}"
+                                                [ngClass]="{'is-invalid': workOrderForm.submitted && Year.invalid}"
+                                                id="year" [(ngModel)]="vehicle.year" #Year="ngModel"
+                                                required>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" name="make{{i}}" id="make"
+                                                [ngClass]="{'is-invalid': workOrderForm.submitted && Make.invalid}"
+                                                [(ngModel)]="vehicle.make" #Make="ngModel" required>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" name="model{{i}}" id="model"
+                                                [ngClass]="{'is-invalid': workOrderForm.submitted && Model.invalid}"
+                                                [(ngModel)]="vehicle.model" #Model="ngModel" required>
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control" name="quantity{{i}}" id="quantity"
+                                                [ngClass]="{'is-invalid': workOrderForm.submitted && ProductQty.invalid}"
+                                                [(ngModel)]="vehicle.mileage" #ProductQty="ngModel" required>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card border-secondary mt-2">
+                    <div class="card-body">
+                        <h4 class="card-title">Work Requested By Customer</h4>
+                        <div class="form-group">
+                            <textarea class="form-control" name="additionalDetails" rows="3"
+                                [(ngModel)]="workOrder.additionalDetails"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-4">
+                <button type="button" class="btn btn-secondary btn-lg btn-block"
+                    (click)="workOrderForm.valid ? generatePDF('download') : ''">Download</button>
+                <button type="button" class="btn btn-secondary btn-lg btn-block"
+                    (click)="workOrderForm.valid ? generatePDF('print') : ''">Print
+                    </button>
+                <button type="submit" class="btn btn-secondary btn-lg btn-block"
+                    (click)="workOrderForm.valid ? generatePDF('open') : ''">Open
+                    </button>
+            </div>
+        </div>
+    </div>
+</form>
+<footer class="fixed-bottom">
+    <div class="bg-light text-center p-2">
+        <h6>Made by Unycross</h6>
+    </div>
+</footer>
